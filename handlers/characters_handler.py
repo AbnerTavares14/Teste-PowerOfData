@@ -1,7 +1,7 @@
 import asyncio
 import aiohttp
 import logging
-from utils import swapi_client # Importa nosso cliente de API!
+from utils import swapi_client
 
 async def _format_character_details(session: aiohttp.ClientSession, item: dict):
     planet_url = item.get('homeworld')
