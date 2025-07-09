@@ -50,7 +50,7 @@ async def list_characters(params: dict):
             return {'message': 'page e limit devem ser maiores que 0'}, 400
 
         async with aiohttp.ClientSession() as session:
-            url = 'https://swapi.dev/api/people'
+            url = 'https://swapi.info/api/people'
             data = await swapi_client.get_cached_url_data(session, url)
             all_results = data.get('results', []) if data else []
 
@@ -61,14 +61,8 @@ async def list_characters(params: dict):
             formatted_data = await asyncio.gather(*tasks, return_exceptions=True)
             formatted_data = [item for item in formatted_data if not isinstance(item, Exception)]
 
-            def sort_key(x):
-                value = x.get(sort_by, '0')
-                if sort_by in ['altura', 'peso']:
-                    numeric_part = ''.join(filter(str.isdigit, str(value)))
-                    return int(numeric_part) if numeric_part else 0
-                return value.lower() if isinstance(value, str) else value
-
-            formatted_data.sort(key=sort_key, reverse=(order == 'desc'))
+            reverse = (order == 'desc')
+            formatted_data.sort(key=lambda x: x[sort_by] if x[sort_by] != 'desconhecido' else '', reverse=reverse)
 
             start = (page - 1) * limit
             end = start + limit

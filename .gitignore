@@ -3,3 +3,6 @@ Lib/
 Scripts/
 pyvenv.cfg
 Include/
+aiohappyeyeballs/
+aiohttp/
+aiohttp-3.12.13.dist-info/

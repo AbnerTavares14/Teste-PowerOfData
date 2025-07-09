@@ -38,22 +38,32 @@ async def _format_film_details(session: aiohttp.ClientSession, item: dict):
 
 async def list_films(params: dict):
     try:
+        title_filter = params.get('title', '').lower()
         sort_by = params.get('sort_by', 'episodio_id')
         order = params.get('order', 'asc')
+        page = int(params.get('page', 1))
+        limit = int(params.get('limit', 10))
         
         valid_sort_fields = ['titulo', 'episodio_id', 'data_lancamento']
         if sort_by not in valid_sort_fields:
             return {'message': f'sort_by deve ser um de: {valid_sort_fields}'}, 400
+        if page < 1 or limit < 1:
+            return {'message': 'page e limit devem ser maiores que 0'}, 400
 
         async with aiohttp.ClientSession() as session:
-            url = 'https://swapi.dev/api/films/'
+            url = 'https://swapi.info/api/films/'
             data = await swapi_client.get_cached_url_data(session, url)
-            all_results = data.get('results', []) if data else []
+            all_results = []
+            all_results.extend(data)
 
+            if title_filter:
+                all_results = [item for item in all_results if title_filter in item.get('title', '').lower()]
             tasks = [_format_film_details(session, item) for item in all_results]
-            formatted_data = await asyncio.gather(*tasks)
+            formatted_data = await asyncio.gather(*tasks, return_exceptions=True)
+            formatted_data = [item for item in formatted_data if not isinstance(item, Exception)]
 
             formatted_data.sort(key=lambda x: x.get(sort_by, 0), reverse=(order == 'desc'))
+            
 
         return formatted_data, 200
 
