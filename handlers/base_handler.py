@@ -16,6 +16,23 @@ class BaseHandler:
         self.limit = int(self.params.get('limit', 10))
         self.name_filter = self.params.get('name', '').lower()
 
+    
+    async def get_by_id(self, resource_id: str):
+        if not self.API_URL:
+            return {'message': 'API URL não configurada'}, 500
+        url = f"{self.API_URL}{resource_id}/"
+        try:
+            async with aiohttp.ClientSession() as session:
+                item_data = await self.swapi_client.get_cached_url_data(session, url)
+                if not item_data:
+                    return {'message': 'Recurso não encontrado'}, 404
+                
+                formatted_item = await self._format_item(session, item_data)
+                return formatted_item, 200
+        except Exception as e:
+            logging.exception(f"Erro ao buscar recurso por ID {resource_id}")
+            return {'message': f'Um erro inesperado ocorreu: {str(e)}'}, 500
+    
     async def _format_item(self, session, item: dict):
         logging.warning(f"O método _format_item não foi implementado para {self.__class__.__name__}")
         return item

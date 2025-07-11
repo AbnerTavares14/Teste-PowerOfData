@@ -13,20 +13,26 @@ ROUTES = {
 
 def lambda_handler(event, context):
     path = event.get('rawPath', '').strip('/')
-    resource = path.split('/')[0] if path else 'people' 
+    parts = path.split('/')
     params = event.get('queryStringParameters', {}) or {}
     
-    result, status = None, 404
+    result, status = {'message': 'Rota inválida'}, 404
 
-    if resource in ROUTES:
-        HandlerClass = ROUTES[resource]
-        
+    main_resource = parts[0] if len(parts) > 0 else 'people'
+    resource_id = parts[1] if len(parts) > 1 else None
+    sub_resource = parts[2] if len(parts) > 2 else None
+
+    if main_resource in ROUTES:
+        HandlerClass = ROUTES[main_resource]
         handler_instance = HandlerClass(params, swapi_client)
-        
-        result, status = asyncio.run(handler_instance.list_resources())
-    else:
-        result = {'message': 'Endpoint não encontrado.'}
-        status = 404
+
+        if resource_id and sub_resource == 'characters' and main_resource == 'films':
+            result, status = asyncio.run(handler_instance.list_characters_from_film(resource_id))
+        elif resource_id:
+            result, status = asyncio.run(handler_instance.get_by_id(resource_id))
+        else:
+            result, status = asyncio.run(handler_instance.list_resources())
+            
 
     return {
         'statusCode': status,
