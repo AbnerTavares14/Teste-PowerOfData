@@ -14,7 +14,7 @@ A solução utiliza uma arquitetura serverless na AWS, garantindo escalabilidade
 2. **Autorizador Lambda**: Valida tokens JWT enviados no cabeçalho `Authorization`.
 3. **Função Lambda Principal**: Processa a lógica de negócio, consultando a **SWAPI (API externa)** e retornando respostas formatadas.
 
-![Diagrama de Arquitetura](![alt text](image-1.png))
+(![alt text](image.png))
 
 ---
 
@@ -53,27 +53,27 @@ https://6kxkyjyby9.execute-api.us-east-2.amazonaws.com/default/
 
 ### Endpoints Disponíveis
 
-| Método | Endpoint                     | Descrição                                    | Exemplo de Chamada (curl)                                                                 |
-|--------|------------------------------|----------------------------------------------|-------------------------------------------------------------------------------------------|
-| GET    | /people                      | Lista os personagens da saga.                | `curl -H "Authorization: Bearer $TOKEN" [URL_BASE]/people`                                 |
-| GET    | /films                       | Lista os filmes, ordenados por episódio.     | `curl -H "Authorization: Bearer $TOKEN" [URL_BASE]/films`                                  |
-| GET    | /films/{id}                  | Retorna detalhes do filme com ID especificado. | `curl -H "Authorization: Bearer $TOKEN" [URL_BASE]/films/1`                              |
-| GET    | /films/{id}/characters       | Lista personagens de um filme específico.    | `curl -H "Authorization: Bearer $TOKEN" [URL_BASE]/films/1/characters`                     |
-| GET    | /starships                   | Lista as naves estelares.                    | `curl -H "Authorization: Bearer $TOKEN" [URL_BASE]/starships?sort_by=cost_in_credits`      |
-| GET    | /vehicles                    | Lista os veículos.                           | `curl -H "Authorization: Bearer $TOKEN" [URL_BASE]/vehicles`                               |
-| GET    | /planets                     | Lista os planetas.                           | `curl -H "Authorization: Bearer $TOKEN" [URL_BASE]/planets`                                |
+| Método | Endpoint               | Descrição                                      | Exemplo de Chamada (curl)                                                             |
+| ------ | ---------------------- | ---------------------------------------------- | ------------------------------------------------------------------------------------- |
+| GET    | /people                | Lista os personagens da saga.                  | `curl -H "Authorization: Bearer $TOKEN" [URL_BASE]/people`                            |
+| GET    | /films                 | Lista os filmes, ordenados por episódio.       | `curl -H "Authorization: Bearer $TOKEN" [URL_BASE]/films`                             |
+| GET    | /films/{id}            | Retorna detalhes do filme com ID especificado. | `curl -H "Authorization: Bearer $TOKEN" [URL_BASE]/films/1`                           |
+| GET    | /films/{id}/characters | Lista personagens de um filme específico.      | `curl -H "Authorization: Bearer $TOKEN" [URL_BASE]/films/1/characters`                |
+| GET    | /starships             | Lista as naves estelares.                      | `curl -H "Authorization: Bearer $TOKEN" [URL_BASE]/starships?sort_by=cost_in_credits` |
+| GET    | /vehicles              | Lista os veículos.                             | `curl -H "Authorization: Bearer $TOKEN" [URL_BASE]/vehicles`                          |
+| GET    | /planets               | Lista os planetas.                             | `curl -H "Authorization: Bearer $TOKEN" [URL_BASE]/planets`                           |
 
 ### Parâmetros Opcionais (Query)
 
-| Endpoint             | Filtros Disponíveis                       | Ordenação Disponível                                      | Ordem         |
-|----------------------|------------------------------------------|----------------------------------------------------------|---------------|
-| `/people`            | `name`                                  | `name`, `height`, `mass`                                 | `asc`, `desc` |
-| `/films`             | `title`, `episode_id`, `director`, `producer` | `title`, `episode_id`, `release_date`, `director`, `producer` | `asc`, `desc` |
-| `/films/{id}`        | -                                       | -                                                        | -             |
-| `/films/{id}/characters` | -                                   | -                                                        | -             |
-| `/starships`         | `name`, `model`, `manufacturer`          | `name`, `model`, `manufacturer`, `cost_in_credits`, `cargo_capacity`, `length`, `crew`, `passengers`, `hyperdrive_rating` | `asc`, `desc` |
-| `/vehicles`          | `name`, `model`, `manufacturer`, `vehicle_class` | `name`, `model`, `cost_in_credits`, `length`, `crew`, `passengers`, `cargo_capacity`, `max_atmosphering_speed` | `asc`, `desc` |
-| `/planets`           | `name`, `climate`, `terrain`             | `name`, `rotation_period`, `orbital_period`, `diameter`, `climate`, `gravity`, `terrain` | `asc`, `desc` |
+| Endpoint                 | Filtros Disponíveis                              | Ordenação Disponível                                                                                                      | Ordem         |
+| ------------------------ | ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------- | ------------- |
+| `/people`                | `name`                                           | `name`, `height`, `mass`                                                                                                  | `asc`, `desc` |
+| `/films`                 | `title`, `episode_id`, `director`, `producer`    | `title`, `episode_id`, `release_date`, `director`, `producer`                                                             | `asc`, `desc` |
+| `/films/{id}`            | -                                                | -                                                                                                                         | -             |
+| `/films/{id}/characters` | -                                                | -                                                                                                                         | -             |
+| `/starships`             | `name`, `model`, `manufacturer`                  | `name`, `model`, `manufacturer`, `cost_in_credits`, `cargo_capacity`, `length`, `crew`, `passengers`, `hyperdrive_rating` | `asc`, `desc` |
+| `/vehicles`              | `name`, `model`, `manufacturer`, `vehicle_class` | `name`, `model`, `cost_in_credits`, `length`, `crew`, `passengers`, `cargo_capacity`, `max_atmosphering_speed`            | `asc`, `desc` |
+| `/planets`               | `name`, `climate`, `terrain`                     | `name`, `rotation_period`, `orbital_period`, `diameter`, `climate`, `gravity`, `terrain`                                  | `asc`, `desc` |
 
 ---
 
