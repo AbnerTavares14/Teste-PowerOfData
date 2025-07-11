@@ -1,7 +1,15 @@
 import json
 import asyncio
 
-from handlers import character_handler
+from handlers import characters_handler, films_handler, starships_handler, planets_handler
+
+
+routes = {
+    'characters': characters_handler.list_characters,
+    'films': films_handler.list_films,
+    'starships': starships_handler.list_starships,
+    'planets': planets_handler.list_planets
+}
 
 def lambda_handler(event, context):
     path = event.get('rawPath', '').strip('/')
@@ -11,10 +19,9 @@ def lambda_handler(event, context):
     params = event.get('queryStringParameters', {}) or {}
     
     result, status = None, 404
-
-    if resource == 'characters':
-        result, status = asyncio.run(character_handler.list_characters(params))
-        
+    
+    if resource in routes:
+        result, status = asyncio.run(routes[resource](params))
     else:
         result = {'message': 'Endpoint não encontrado.'}
         status = 404
