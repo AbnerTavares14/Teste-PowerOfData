@@ -14,7 +14,7 @@ A solução utiliza uma arquitetura serverless na AWS, garantindo escalabilidade
 2. **Autorizador Lambda**: Valida tokens JWT enviados no cabeçalho `Authorization`.
 3. **Função Lambda Principal**: Processa a lógica de negócio, consultando a **SWAPI (API externa)** e retornando respostas formatadas.
 
-![Diagrama de Arquitetura](image.png)
+![Diagrama de Arquitetura](![alt text](image-1.png))
 
 ---
 
