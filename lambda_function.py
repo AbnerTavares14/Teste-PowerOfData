@@ -1,14 +1,15 @@
 import json
 import asyncio
 
-from handlers import characters_handler, films_handler, starships_handler, planets_handler
+from handlers import characters_handler, films_handler, starships_handler, planets_handler, vehicles_handler
 
 
 routes = {
     'characters': characters_handler.list_characters,
     'films': films_handler.list_films,
     'starships': starships_handler.list_starships,
-    'planets': planets_handler.list_planets
+    'planets': planets_handler.list_planets,
+    'vehicles': vehicles_handler.list_vehicles,
 }
 
 def lambda_handler(event, context):
