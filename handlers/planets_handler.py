@@ -66,7 +66,7 @@ async def list_planets(params: dict):
             'page': page,
             'limit': limit,
             'data': paginated_data
-        }
+        }, 200
 
     except Exception as e:
         logging.exception("Erro no handler de planetas.")

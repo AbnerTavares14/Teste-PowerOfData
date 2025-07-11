@@ -69,7 +69,7 @@ async def list_starships(params: dict):
             'page': page,
             'limit': limit,
             'data': paginated_data
-        }
+        }, 200
 
     except Exception as e:
         logging.exception("Erro no handler de naves espaciais.")

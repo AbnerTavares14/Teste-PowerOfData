@@ -65,7 +65,12 @@ async def list_films(params: dict):
             formatted_data.sort(key=lambda x: x.get(sort_by, 0), reverse=(order == 'desc'))
             
 
-        return formatted_data, 200
+        return {
+            'total': len(formatted_data),
+            'page': page,
+            'limit': limit,
+            'data': formatted_data[(page - 1) * limit: page * limit]
+        }, 200
 
     except Exception as e:
         logging.exception("Erro no handler de filmes.")
