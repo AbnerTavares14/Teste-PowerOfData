@@ -41,7 +41,7 @@ async def test_list_characters_from_film():
 
     assert status == 200
     assert len(result) == 2
-    assert result[0]['nome'] == 'Luke Skywalker'
-    assert result[1]['nome'] == 'Leia Organa'
+    assert result[0]['name'] == 'Luke Skywalker'
+    assert result[1]['name'] == 'Leia Organa'
     
     assert mock_swapi_client.get_cached_url_data.call_count == 5

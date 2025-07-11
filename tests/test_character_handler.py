@@ -35,25 +35,25 @@ async def test_format_character_item_success():
 
     formatted_character = await handler._format_item(session=None, item=sample_raw_character)
 
-    assert formatted_character['nome'] == 'Luke Skywalker'
-    assert formatted_character['planeta_natal'] == 'Tatooine'
-    assert formatted_character['filmes'] == ['A New Hope']
-    assert formatted_character['especies'] == ['desconhecido']
-    assert formatted_character['naves'] == ['desconhecido']
-    assert formatted_character['veiculos'] == ['desconhecido']
+    assert formatted_character['name'] == 'Luke Skywalker'
+    assert formatted_character['homeworld'] == 'Tatooine'
+    assert formatted_character['films'] == ['A New Hope']
+    assert formatted_character['species'] == ['desconhecido']
+    assert formatted_character['starships'] == ['desconhecido']
+    assert formatted_character['vehicles'] == ['desconhecido']
 
 def test_get_sort_key_for_numeric_fields():
     """
     Testa se o método _get_sort_key converte corretamente os campos
-    numéricos 'altura' e 'peso' para a ordenação.
+    numéricos 'height' e 'peso' para a ordenação.
     """
-    handler_altura = CharacterHandler(params={'sort_by': 'altura'}, swapi_client=None)
-    handler_peso = CharacterHandler(params={'sort_by': 'peso'}, swapi_client=None)
+    handler_height = CharacterHandler(params={'sort_by': 'height'}, swapi_client=None)
+    handler_mass = CharacterHandler(params={'sort_by': 'mass'}, swapi_client=None)
 
-    item_com_dados = {'altura': '172', 'peso': '77.5'}
-    item_com_unknown = {'altura': 'unknown', 'peso': 'unknown'}
+    item_com_dados = {'height': '172', 'mass': '77.5'}
+    item_com_unknown = {'height': 'unknown', 'mass': 'unknown'}
 
-    assert handler_altura._get_sort_key(item_com_dados) == 172.0
-    assert handler_peso._get_sort_key(item_com_dados) == 77.5
-    assert handler_altura._get_sort_key(item_com_unknown) == 0
-    assert handler_peso._get_sort_key(item_com_unknown) == 0
+    assert handler_height._get_sort_key(item_com_dados) == 172
+    assert handler_mass._get_sort_key(item_com_dados) == 77.5
+    assert handler_height._get_sort_key(item_com_unknown) == 0
+    assert handler_mass._get_sort_key(item_com_unknown) == 0
