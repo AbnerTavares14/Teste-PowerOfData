@@ -7,7 +7,8 @@ from .base_handler import BaseHandler
 class FilmHandler(BaseHandler):
     API_URL = 'https://swapi.info/api/films/'
     SORTABLE_FIELDS = ['title', 'episode_id', 'release_date', 'director', 'producer']
-
+    FILTERABLE_FIELDS = ['title', 'episode_id', 'director', 'producer'] 
+    
     DEFAULT_SORT_BY = 'episode_id'
 
     def __init__(self, params: dict, swapi_client):

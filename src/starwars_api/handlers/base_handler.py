@@ -6,6 +6,8 @@ class BaseHandler:
     API_URL = None
     SORTABLE_FIELDS = ['name']
     DEFAULT_SORT_BY = 'name'
+    FILTERABLE_FIELDS = ['name'] 
+
 
     def __init__(self, params: dict, swapi_client):
         self.params = params
@@ -53,10 +55,28 @@ class BaseHandler:
             async with aiohttp.ClientSession() as session:
                 all_results = await self.swapi_client.get_cached_url_data(session, self.API_URL)
 
-                if self.name_filter:
-                    all_results = [item for item in all_results if self.name_filter in item.get('name', '').lower()]
+                filtered_results = []
+                
+                reserved_params = {'page', 'limit', 'sort_by', 'order'}
 
-                tasks = [self._format_item(session, item) for item in all_results]
+                active_filters = {
+                    key: value for key, value in self.params.items() 
+                    if key in self.FILTERABLE_FIELDS and key not in reserved_params
+                }
+
+                if not active_filters:
+                    filtered_results = all_results
+                else:
+                    for item in all_results:
+                        match = True
+                        for key, value in active_filters.items():
+                            if str(item.get(key, '')).lower() != str(value).lower():
+                                match = False
+                                break
+                        if match:
+                            filtered_results.append(item)
+
+                tasks = [self._format_item(session, item) for item in filtered_results]
                 formatted_data = await asyncio.gather(*tasks)
 
                 formatted_data.sort(key=self._get_sort_key, reverse=(self.order == 'desc'))

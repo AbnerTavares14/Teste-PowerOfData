@@ -4,6 +4,7 @@ from .base_handler import BaseHandler
 class PlanetHandler(BaseHandler):
     API_URL = 'https://swapi.info/api/planets/'
     SORTABLE_FIELDS = ['name', 'rotation_period', 'orbital_period', 'diameter', 'climate', 'gravity', 'terrain']
+    FILTERABLE_FIELDS = ['name', 'climate', 'terrain'] 
     DEFAULT_SORT_BY = 'name'
 
     def __init__(self, params: dict, swapi_client):
@@ -21,17 +22,17 @@ class PlanetHandler(BaseHandler):
         films = results[1] if not isinstance(results[1], Exception) else ['desconhecido']
 
         return {
-            'nome': item.get('name'),
-            'periodo_rotaçao': item.get('rotation_period'),
-            'periodo_orbital': item.get('orbital_period'),
-            'diametro': item.get('diameter'),
-            'clima': item.get('climate'),
-            'gravidade': item.get('gravity'),
-            'terreno': item.get('terrain'),
-            'superficie_agua': item.get('surface_water'),
-            'populacao': item.get('population'),
-            'residentes': residents,
-            'filmes': films
+            'name': item.get('name'),
+            'rotation_period': item.get('rotation_period'),
+            'orbital_period': item.get('orbital_period'),
+            'diameter': item.get('diameter'),
+            'climate': item.get('climate'),
+            'gravity': item.get('gravity'),
+            'terrain': item.get('terrain'),
+            'surface_water': item.get('surface_water'),
+            'population': item.get('population'),
+            'residents': residents,
+            'films': films
         }
     
     def _get_sort_key(self, item: dict):

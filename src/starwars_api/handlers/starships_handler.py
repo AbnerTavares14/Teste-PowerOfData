@@ -3,7 +3,8 @@ from .base_handler import BaseHandler
 
 class StarshipHandler(BaseHandler):
     API_URL = 'https://swapi.info/api/starships/'
-    SORTABLE_FIELDS =  ['name', 'model', 'manufacturer', 'cost_in_credits']
+    SORTABLE_FIELDS =  ['name', 'model', 'manufacturer', 'cost_in_credits', 'cargo_capacity', 'length', 'crew', 'passengers', 'hyperdrive_rating']
+    FILTERABLE_FIELDS = ['name', 'model', 'manufacturer']
     DEFAULT_SORT_BY = 'name'
 
     def __init__(self, params: dict, swapi_client):
@@ -16,7 +17,7 @@ class StarshipHandler(BaseHandler):
         pilots, films = await asyncio.gather(pilots_task, films_task, return_exceptions=True)
 
         return {
-            'nome': item.get('name'),
+            'name': item.get('name'),
             'model': item.get('model'),
             'manufacturer': item.get('manufacturer'),
             'cost_in_credits': item.get('cost_in_credits'),

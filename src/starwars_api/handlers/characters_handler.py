@@ -3,8 +3,9 @@ from .base_handler import BaseHandler
 
 class CharacterHandler(BaseHandler):
     API_URL = 'https://swapi.info/api/people/'
-    SORTABLE_FIELDS = ['nome', 'altura', 'peso']
-    DEFAULT_SORT_BY = 'nome'
+    SORTABLE_FIELDS = ['name', 'height', 'mass']
+    DEFAULT_SORT_BY = 'name'
+    FILTERABLE_FIELDS = ['name'] 
 
     def __init__(self, params: dict, swapi_client):
         super().__init__(params, swapi_client)
@@ -31,23 +32,26 @@ class CharacterHandler(BaseHandler):
         vehicle_names = results[4] if not isinstance(results[4], Exception) else ['desconhecido']
 
         return {
-            'nome': item.get('name', 'desconhecido'),
-            'altura': item.get('height', 'unknown'), 
-            'peso': item.get('mass', 'unknown'), 
-            'planeta_natal': planet_name,
-            'filmes': film_titles or ['desconhecido'],
-            'especies': species_names or ['desconhecido'],
-            'naves': starship_names or ['desconhecido'],
-            'veiculos': vehicle_names or ['desconhecido'],
+            'name': item.get('name', 'desconhecido'),
+            'height': item.get('height', 'unknown'),
+            'mass': item.get('mass', 'unknown'),
+            'homeworld': planet_name,
+            'films': film_titles or ['desconhecido'],
+            'species': species_names or ['desconhecido'],
+            'starships': starship_names or ['desconhecido'],
+            'vehicles': vehicle_names or ['desconhecido'],
         }
 
     def _get_sort_key(self, item: dict):
-        value = item.get(self.sort_by, '0')
-        if self.sort_by in ['altura', 'peso']:
+        value = item.get(self.sort_by)
+
+        if self.sort_by in ['height', 'mass']:
             try:
                 return float(value)
             except (ValueError, TypeError):
                 return 0
+        
         if isinstance(value, str):
             return value.lower()
+            
         return value

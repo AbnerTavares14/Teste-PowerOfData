@@ -3,7 +3,8 @@ from .base_handler import BaseHandler
 
 class VehicleHandler(BaseHandler):
     API_URL = 'https://swapi.info/api/vehicles/'
-    SORTABLE_FIELDS = ['name', 'model', 'cost_in_credits', 'length', 'crew']
+    SORTABLE_FIELDS = ['name', 'model', 'cost_in_credits', 'length', 'crew', 'passengers', 'cargo_capacity', 'max_atmosphering_speed']
+    FILTERABLE_FIELDS = ['name', 'model', 'manufacturer', 'vehicle_class']
     DEFAULT_SORT_BY = 'name'
 
     def __init__(self, params: dict, swapi_client):
